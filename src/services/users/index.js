@@ -5,6 +5,7 @@ const {
   authorizeUser,
   adminOnly,
 } = require("../../utils/auth/authMiddlewares");
+const passport = require("passport");
 
 router.get("/", authorizeUser, adminOnly, async (req, res, next) => {
   try {
@@ -131,5 +132,59 @@ router.post("/refreshToken", async (req, res, next) => {
     }
   }
 });
+
+router.get(
+  "/spotifyLogin",
+  passport.authenticate("spotify", {
+    scope: ["user-read-email", "user-read-private"],
+  })
+);
+
+router.get(
+  "/spotifyRedirect",
+  passport.authenticate("spotify"),
+  async (req, res, next) => {
+    try {
+      res.cookie("accessToken", req.user.tokens.accessToken, {
+        httpOnly: true,
+      });
+      res.cookie("accessToken", req.user.tokens.refreshToken, {
+        httpOnly: true,
+        path: "/users/refreshToken",
+      });
+      res.status(200).redirect(`${process.env.FE_URL}`);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/facebookLogin",
+  passport.authenticate("facebook", {
+    scope: ["public_profile", "email"],
+  })
+);
+
+router.get(
+  "/facebookRedirect",
+  passport.authenticate("facebook"),
+  async (req, res, next) => {
+    try {
+      res.cookie("accessToken", req.user.tokens.accessToken, {
+        httpOnly: true,
+      });
+      res.cookie("accessToken", req.user.tokens.refreshToken, {
+        httpOnly: true,
+        path: "/users/refreshToken",
+      });
+      res.status(200).redirect(`${process.env.FE_URL}`);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
