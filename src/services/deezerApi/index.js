@@ -1,9 +1,10 @@
 const express = require("express");
 const fetch = require("node-fetch");
-
+const { authenticateUser } = require("../../utils/auth");
+const { authorizeUser } = require("../../utils/auth/authMiddlewares");
 const deezerRouter = express.Router();
 
-deezerRouter.get("/songs/:query", async (req, res, next) => {
+deezerRouter.get("/songs/:query", authenticateUser, async (req, res, next) => {
   try {
     const resp = await fetch(
       "https://deezerdevs-deezer.p.rapidapi.com/search?q=" + req.params.query,
@@ -22,7 +23,7 @@ deezerRouter.get("/songs/:query", async (req, res, next) => {
     next(error);
   }
 });
-deezerRouter.get("/artist/:id", async (req, res, next) => {
+deezerRouter.get("/artist/:id", authenticateUser, async (req, res, next) => {
   try {
     const resp = await fetch(
       "https://deezerdevs-deezer.p.rapidapi.com/artist/" + req.params.id,
@@ -42,7 +43,7 @@ deezerRouter.get("/artist/:id", async (req, res, next) => {
   }
 });
 
-deezerRouter.get("/album/:id", async (req, res, next) => {
+deezerRouter.get("/album/:id", authenticateUser, async (req, res, next) => {
   try {
     const resp = await fetch(
       "https://deezerdevs-deezer.p.rapidapi.com/album/" + req.params.id,
