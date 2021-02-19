@@ -7,6 +7,7 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const deezerRouter = require("./services/deezerApi");
 
+const usersRoute = require("./services/users");
 // const oauth = require("./utils/auth/oauth");
 
 const {
@@ -38,6 +39,8 @@ server.use(express.json());
 server.use(cookieParser());
 server.use(passport.initialize());
 server.use("/", deezerRouter);
+
+server.use("/users", usersRoute);
 
 server.use(badRequestErrorHandler);
 server.use(notFoundErrorHandler);
