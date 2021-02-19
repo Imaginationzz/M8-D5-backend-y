@@ -68,7 +68,7 @@ passport.use(
       };
 
       try {
-        const user = await UserModel.findOne({ spotifyId: profile.id });
+        const user = await UserModel.findOne({ facebookId: profile.id });
 
         if (user) {
           const tokens = await authenticateUser(user);
