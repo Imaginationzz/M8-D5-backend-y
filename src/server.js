@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
+const deezerRouter = require("./services/deezerApi");
 
 // const oauth = require("./utils/auth/oauth");
 
@@ -36,6 +37,7 @@ server.use(helmet());
 server.use(express.json());
 server.use(cookieParser());
 server.use(passport.initialize());
+server.use("/", deezerRouter);
 
 server.use(badRequestErrorHandler);
 server.use(notFoundErrorHandler);
