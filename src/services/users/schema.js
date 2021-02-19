@@ -5,7 +5,7 @@ const UserSchema = new Schema(
   {
     name: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true, dropDups: true },
+    email: { type: String, unique: true, dropDups: true },
     password: { type: String },
     spotifyId: String,
     facebookId: String,
@@ -16,6 +16,7 @@ const UserSchema = new Schema(
       default: "user",
       required: true,
     },
+    username: String,
   },
   { timestamps: true }
 );

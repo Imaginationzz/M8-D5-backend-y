@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const deezerRouter = require("./services/deezerApi");
 
 const usersRoute = require("./services/users");
-// const oauth = require("./utils/auth/oauth");
+const oauth = require("./utils/auth/oauth");
 
 const {
   notFoundErrorHandler,
